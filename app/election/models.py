@@ -1,7 +1,9 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import User
 
 class Answer(models.Model):
+	"""Model representing answers for questions"""
 	text = models.CharField(_(u'text'), max_length=50, help_text=_(u'Text of answer.'))
 
 	def __unicode__(self):
@@ -32,3 +34,9 @@ class Election(models.Model):
 
 	def __unicode__(self):
 		return self.name
+
+class Voter(models.Model):
+	"""Model representing voters for election"""
+	user = models.ForeignKey(User, verbose_name=_(u'user'), help_text=_(u'User, which is configured as voter.'))
+	election = models.ForeignKey(Election, verbose_name=_(u'election'), help_text=_(u'Election, which user has voting rights.'))
+	voted = models.BooleanField(_(u'visible'), default=False, help_text=_(u'Is user has already voted.'))
