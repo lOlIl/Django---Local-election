@@ -1,12 +1,19 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+class Answer(models.Model):
+	text = models.CharField(_(u'text'), max_length=50, help_text=_(u'Text of answer.'))
+
+	def __unicode__(self):
+		return "(%d) %s" % (self.pk, self.text)
+
 class Question(models.Model):
 	"""Model representing election questions"""
 	text = models.CharField(_(u'text'), max_length=50, help_text=_(u'Text of election question.'))
     	max = models.IntegerField(_(u'max'), default=1, help_text=_(u'Maximum count of selectable answers.'))
     	mutiple = models.BooleanField(_(u'multiple'), default=False, help_text=_(u'Multiple answers for election question.'))
     	candidate = models.BooleanField(_(u'candidate'), default=True, help_text=_(u'Is candidate question.'))
+	answer = models.ManyToManyField(Answer, blank=True, null=True, verbose_name=_(u'list of answers'), help_text=_(u'Answers for question.'))
 
 	def __unicode__(self):
 		return "(%d) %s" % (self.pk, self.text)
