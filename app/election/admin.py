@@ -1,5 +1,5 @@
 from django.contrib import admin
-from election.models import Election, Question
+from election.models import Election, Question, Answer
 from election.forms import ElectionAdminForm
 
 class QuestionInline(admin.TabularInline):
@@ -19,3 +19,4 @@ class QuestionAdmin(admin.ModelAdmin):
 	list_display = ('text', 'max', 'candidate', 'mutiple')
 
 admin.site.register(Question, QuestionAdmin)
+admin.site.register(Answer)
