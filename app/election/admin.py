@@ -25,7 +25,7 @@ class AnswerInline(admin.TabularInline):
 	model = Question.answer.through
 
 class QuestionAdmin(admin.ModelAdmin):
-	list_display = ('text', 'max', 'candidate', 'mutiple')
+	list_display = ('text', 'max', 'candidate')
 	exclude = ('answer', )
 	inlines = [
         	AnswerInline
