@@ -1,6 +1,5 @@
 from django.contrib import admin
 from election.models import Election, Question, Answer, Voter, Candidate
-from election.forms import ElectionAdminForm
 
 class QuestionInline(admin.TabularInline):
 	model = Election.question.through
@@ -12,12 +11,19 @@ class CandidateInline(admin.TabularInline):
     	model = Candidate
 
 class ElectionAdmin(admin.ModelAdmin):
-	list_display = ('name', 'start', 'end', 'visibility')
-	fields = ('name', 'description', 'start', 'end', 'visibility', 'image')
-	form = ElectionAdminForm
+	def voters_total(self, obj):
+		return obj.voter_set.count()
+	def voted_percentage(self, obj):
+		return str(round(obj.voter_set.filter(voted=True).count()/float(obj.voter_set.count()),2)) + " %"
+	def candidates_total(self, obj):
+		return obj.candidate_set.count()
+
+
+	list_display = ('name', 'start', 'end', 'visibility', 'candidates_total', 'voters_total', 'voted_percentage')
+	fields = ('name', 'description', 'start', 'end', 'visibility', 'image')	
 	inlines = [
-        	QuestionInline, VoterInline, CandidateInline
-    	]
+		QuestionInline, VoterInline, CandidateInline
+	]
 
 class AnswerInline(admin.TabularInline):
 	model = Question.answer.through
