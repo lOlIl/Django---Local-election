@@ -38,7 +38,7 @@ class Voter(models.Model):
 	"""Model representing voters for election"""
 	user = models.ForeignKey(User, verbose_name=_(u'user'), help_text=_(u'User, which is configured as voter.'))
 	election = models.ForeignKey(Election, verbose_name=_(u'election'), help_text=_(u'Election, which user has voting rights.'))
-	voted = models.BooleanField(_(u'visible'), default=False, help_text=_(u'Is user has already voted.'))
+	voted = models.BooleanField(_(u'voted'), default=False, help_text=_(u'Is user has already voted.'))
 
 class Candidate(models.Model):
 	"""Model representing cadidates for election"""
